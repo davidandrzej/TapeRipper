@@ -1,0 +1,90 @@
+TapeRipper - A GUI program for dead simple tape-to-CD transfers.
+
+David Andrzejewski
+david.andrzej@gmail.com
+
+
+DESCRIPTION
+
+Of course it is possible for a user to convert an audio tape to CD
+using Audacity and CD burning software.  There are commercial
+solutions as well (e.g., Nero).  This program is aimed at the user who
+does not wish to be bothered with the details of such a procedure.
+Therefore the overriding design principle is user interface
+simplicity.  The goal is for converting an audio tape to CD to involve
+connecting the tape player to the computer, a few mouse clicks,
+walking away for 50 minutes, then coming back and doing a few more
+mouse clicks.
+
+One tricky issue is that the raw audio feed from the tape will include
+intro / outro silence, as well as track breaks for music CDs.  In
+order to try to handle these automagically, the program employs some
+very rudimentary signal processing tricks.  In particular, music
+track segmentation (for the creation of CDs which contain multiple
+tracks and can be navigated by skipping songs) is done with a simple
+hand-crafted Hidden Markov Model (I don't know how Nero does
+this...maybe something similar).
+
+
+USAGE
+
+Voice recording mode: resulting CD will have a single track
+(cannot navigate by skipping individual songs)
+
+Music recording mode: program will attempt to automatically 
+find track breaks to create a CD with multiple tracks
+
+Steps:
+1) Connect tape player to mic input and put blank CD in drive
+2) Press the RECORD button
+3) Press play on your cassette tape player
+4) When tape is done, press STOP
+5) When tracks are done processing, press BURN
+
+If any problems are encountered, simply QUIT and start over
+
+To test mic and tape player volume levels
+-RECORD some of your tape as described above
+-Hit PLAY to listen to the recording (use to test quality/volume/etc)
+
+
+REQUIREMENTS
+
+-Tkinter (GUI, should be included with Python)
+-tkSnack (mic input, http://www.speech.kth.se/snack/)
+-NumPy (fast calculation for track/gap segmentation)
+-cdrecord (CD burning, http://smithii.com/cdrtools)
+
+
+KNOWN BUGS / MISSING FEATURES
+
+-Windows: if recorded audio gets too large, Tcl/Tk may crash with an
+'unable to alloc %d bytes' on Windows
+
+-Functionality for handling double-sided tapes is commented out.  The
+extra memory usage seemed especially likely to trigger the Tcl/Tk
+memory error.
+
+
+LICENSE
+
+This software is open-source, released under the terms of the GNU
+General Public License version 3, or any later version of the GPL (see
+LICENSE.txt).
+
+
+ACKNOWLEDGMENTS
+
+In addition to being beautiful and amazing, Cho Andrzejewski provided
+invaluable guidance on user interface and overall design issues.
+
+This program was developed as part of a Christmas present for my
+mother-in-law.
+
+Early implementations of this program used HMM code from Michael
+Hamilton (hamiltom@cs.colostate.edu).
+
+
+VERSION HISTORY
+
+0.1     Initial release
